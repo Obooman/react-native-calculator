@@ -9,7 +9,7 @@ import {
 
 const { height } = Dimensions.get('window');
 
-export default class Button extends Component {
+export default class FuncButton extends Component {
   render() {
     let wrapperStyle = {
       width:80,

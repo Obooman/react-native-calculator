@@ -7,6 +7,7 @@ import {
 
 import Display from './Display';
 import Button from './Button';
+import FuncButton from './FuncButton';
 import ButtonWrapper from './ButtonWrapper';
 
 export default class Main extends Component {
@@ -18,29 +19,29 @@ export default class Main extends Component {
         />
         <Display/>
         <ButtonWrapper>
-          <Button display="C"/>
-          <Button display="+/-"/>
-          <Button display="%"/>
-          <Button display="÷" operation = {true}/>
+          <FuncButton display="C"/>
+          <FuncButton display="+/-"/>
+          <FuncButton display="%"/>
+          <FuncButton display="÷" operation = {true}/>
 
           <Button display="7"/>
           <Button display="8"/>
           <Button display="9"/>
-          <Button display="×" operation = {true}/>
+          <FuncButton display="×" operation = {true}/>
 
           <Button display="4"/>
           <Button display="5"/>
           <Button display="6"/>
-          <Button display="-" operation = {true}/>
+          <FuncButton display="-" operation = {true}/>
 
           <Button display="1"/>
           <Button display="2"/>
           <Button display="3"/>
-          <Button display="+" operation = {true}/>
+          <FuncButton display="+" operation = {true}/>
 
           <Button display="0" big="true"/>
           <Button display="."/>
-          <Button display="=" operation = {true}/>
+          <FuncButton display="=" operation = {true}/>
         </ButtonWrapper>
     	</View>
     )

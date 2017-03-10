@@ -22,6 +22,6 @@ var styles = StyleSheet.create({
 	wrapper:{
 		width:320,
     flexDirection:'row',
-    flexWrap:"wrap"
+    flexWrap:"wrap",
 	}
 })
