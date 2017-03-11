@@ -15,7 +15,9 @@ export default class Main extends Component {
     super(props);
 
     this.state = {
-      display:0
+      display:0,
+      former:0,
+      latter:0
     }
   }
 
@@ -75,9 +77,21 @@ export default class Main extends Component {
   }
 
   changeOperation(operation){
-    this.setState({
-      operation
-    })
+    if( this.state.latter ){
+
+      this.setState({
+        former:calculate(),
+        operation,
+        latter:0
+      })
+
+    } else {
+
+      this.setState({
+        operation
+      })
+
+    }
   }
 
   getResult(){
