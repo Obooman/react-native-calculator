@@ -12,7 +12,9 @@ export default class Display extends Component {
   render() {
     return (
     	<View style = { styles.wrapper }>
-    		<Text style = { styles.text }>{ this.props.display || 0 }</Text>
+    		<Text style = { styles.text }>
+    			{ this.props.display || 0 }
+			</Text>
     	</View>
     )
   }
