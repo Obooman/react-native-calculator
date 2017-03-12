@@ -29,51 +29,68 @@ export default class Main extends Component {
         />
         <Display display={ this.state.display }/>
         <ButtonWrapper>
-          <FuncButton display="C"/>
+          <FuncButton display="C" onPress={ () => {this.setState({display:0})} }/>
           <FuncButton display="+/-"/>
           <FuncButton display="%"/>
           <FuncButton display="÷" 
             operation = {true} 
             active = { this.state.operation == 'divide' }
-            onPress = { this.setOperation('divide') }
+            onPress = { () => {this.setOperation('divide')} }
           />
 
-          <Button display="7"/>
-          <Button display="8"/>
-          <Button display="9"/>
+          <Button display="7" onPress={ () => {this.changeDisplay("7")} }/>
+          <Button display="8" onPress={ () => {this.changeDisplay("8")} }/>
+          <Button display="9" onPress={ () => {this.changeDisplay("9")} }/>
           <FuncButton display="×" 
             operation = {true} 
             active = { this.state.operation == 'multi' }
-            onPress = { this.setOperation('multi') }
+            onPress = { () => {this.setOperation('multi')} }
           />
 
-          <Button display="4"/>
-          <Button display="5"/>
-          <Button display="6"/>
+          <Button display="4" onPress={ () => {this.changeDisplay("4")} }/>
+          <Button display="5" onPress={ () => {this.changeDisplay("5")} }/>
+          <Button display="6" onPress={ () => {this.changeDisplay("6")} }/>
           <FuncButton display="-" 
             operation = {true} 
             active = { this.state.operation == 'minus' }
-            onPress = { this.setOperation('minus') }
+            onPress = { () => {this.setOperation('minus')} }
           />
 
-          <Button display="1"/>
-          <Button display="2"/>
-          <Button display="3"/>
+          <Button display="1" onPress={ () => {this.changeDisplay("1")} }/>
+          <Button display="2" onPress={ () => {this.changeDisplay("2")} }/>
+          <Button display="3" onPress={ () => {this.changeDisplay("3")} }/>
           <FuncButton display="+" 
             operation = {true} 
             active = { this.state.operation == 'plus' }
-            onPress = { this.setOperation('plus') }
+            onPress = { () => {this.setOperation('plus')} }
           />
 
-          <Button display="0" big="true"/>
-          <Button display="."/>
-          <FuncButton display="=" operation = { true }/>
+          <Button display="0" big="true" onPress={ () => {this.changeDisplay("0")} }/>
+          <Button display="." onPress={ () => {this.changeDisplay(".")}}/>
+          <FuncButton display="=" operation = { true } onPress={ this.calculate }/>
         </ButtonWrapper>
     	</View>
     )
   }
 
-  changeDisplay(){
+  setOperation(operation){
+    this.setState({
+      operation
+    })
+  }
+
+  changeDisplay(number){
+    const {
+      operation
+    } = this.state;
+
+    if(!operation){
+
+    } 
+    
+    this.setState({
+      display:this.state.display+number
+    })
   }
 
   changeOperation(operation){
@@ -102,6 +119,8 @@ export default class Main extends Component {
   }
 
   calculate(){
+    if(!operation) return;
+
     const {
       operation,former,latter
     } = this.state;

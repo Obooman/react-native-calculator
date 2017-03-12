@@ -39,10 +39,14 @@ export default class Button extends Component {
     }
 
     return (
-    	<TouchableHighlight underlayColor={this.props.operation?'#F78D10':'#B8BDBD'} style = { wrapperStyle } onPress={() => {console.log(this.props.display)}}>
-          <Text style = { textStyle }>
-            { this.props.display }
-          </Text>
+    	<TouchableHighlight 
+        underlayColor={this.props.operation?'#F78D10':'#B8BDBD'}
+        style = { wrapperStyle } 
+        onPress={this.props.onPress}
+        >
+        <Text style = { textStyle }>
+          { this.props.display }
+        </Text>
       </TouchableHighlight>
     )
   }
