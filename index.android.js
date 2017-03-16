@@ -5,10 +5,14 @@ import {
   View
 } from 'react-native';
 
+import Main from './components/Main';
+
 export default class ReactNativeCalculator extends Component {
   render() {
     return (
-      <View/>
+    	<View>
+    		<Main/>
+    	</View>
     )
   }
 }

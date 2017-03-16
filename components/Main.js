@@ -10,6 +10,8 @@ import Button from './Button';
 import FuncButton from './FuncButton';
 import ButtonWrapper from './ButtonWrapper';
 
+YellowBox=false;
+
 export default class Main extends Component {
   constructor(props) {
     super(props);
@@ -17,7 +19,8 @@ export default class Main extends Component {
     this.state = {
       display:0,
       former:0,
-      latter:0
+      latter:0,
+      result:0
     }
   }
 
@@ -29,71 +32,77 @@ export default class Main extends Component {
         />
         <Display display={ this.state.display }/>
         <ButtonWrapper>
-          <FuncButton display="C" onPress={ () => {this.setState({display:0})} }/>
-          <FuncButton display="+/-"/>
-          <FuncButton display="%"/>
-          <FuncButton display="÷" 
-            operation = {true} 
-            active = { this.state.operation == 'divide' }
-            onPress = { () => {this.setOperation('divide')} }
-          />
-
-          <Button display="7" onPress={ () => {this.changeDisplay("7")} }/>
-          <Button display="8" onPress={ () => {this.changeDisplay("8")} }/>
-          <Button display="9" onPress={ () => {this.changeDisplay("9")} }/>
-          <FuncButton display="×" 
-            operation = {true} 
-            active = { this.state.operation == 'multi' }
-            onPress = { () => {this.setOperation('multi')} }
-          />
-
-          <Button display="4" onPress={ () => {this.changeDisplay("4")} }/>
-          <Button display="5" onPress={ () => {this.changeDisplay("5")} }/>
-          <Button display="6" onPress={ () => {this.changeDisplay("6")} }/>
-          <FuncButton display="-" 
-            operation = {true} 
-            active = { this.state.operation == 'minus' }
-            onPress = { () => {this.setOperation('minus')} }
-          />
-
-          <Button display="1" onPress={ () => {this.changeDisplay("1")} }/>
-          <Button display="2" onPress={ () => {this.changeDisplay("2")} }/>
-          <Button display="3" onPress={ () => {this.changeDisplay("3")} }/>
-          <FuncButton display="+" 
-            operation = {true} 
-            active = { this.state.operation == 'plus' }
-            onPress = { () => {this.setOperation('plus')} }
-          />
-
+          <FuncButton display="C" onPress={ this.clear }/>
+          <FuncButton display="+/-" onPress = { this.toggleMinus }/>
+          <FuncButton display="%" onPress={ this.setPercentage }/>
+          {
+            [
+              this.getFuncBtn("÷","divide"),
+              this.getNumberBtn([7,8,9]),
+              this.getFuncBtn("-","minus"),
+              this.getNumberBtn([4,5,6]),
+              this.getFuncBtn("+","plus"),
+              this.getNumberBtn([1,2,3]),
+              this.getFuncBtn("×","multi")
+            ]
+          }
           <Button display="0" big="true" onPress={ () => {this.changeDisplay("0")} }/>
-          <Button display="." onPress={ () => {this.changeDisplay(".")}}/>
-          <FuncButton display="=" operation = { true } onPress={ this.calculate }/>
+          <Button display="." onPress={ this.addDot }/>
+          <FuncButton display="=" operation = { true } onPress={ this.getResult }/>
         </ButtonWrapper>
     	</View>
     )
   }
 
-  setOperation(operation){
+  getNumberBtn(numberArr){
+    return numberArr.map((number,index) => (
+        <Button display={
+          number
+        } onPress={ 
+          () => {this.changeDisplay( ''+number )}
+        } key={ index }/>
+    ))
+  }
+
+  getFuncBtn = (display,operation) => (
+      <FuncButton display = { display } 
+        operation = {true} 
+        active = { this.state.operation == operation }
+        onPress = { () => {this.setOperation( operation )} }
+      />
+  )
+
+  setOperation = (operation) => {
     this.setState({
       operation
     })
   }
 
-  changeDisplay(number){
-    const {
-      operation
+  changeDisplay = (number) => {
+    let {
+      operation,former,latter
     } = this.state;
 
-    if(!operation){
+    if( !operation ){
+      former = parseFloat(former + number);
 
-    } 
-    
-    this.setState({
-      display:this.state.display+number
-    })
+      this.setState({
+        display:former,
+        former
+      })
+    } else {
+      latter = former = parseFloat(latter + number);
+
+      this.setState({
+        display:latter,
+        latter
+      })
+    }
   }
 
-  changeOperation(operation){
+  changeOperation = (operation) => {
+    alert(operation);
+
     if( this.state.latter ){
 
       this.setState({
@@ -111,34 +120,85 @@ export default class Main extends Component {
     }
   }
 
-  getResult(){
+  setPercentage = () => {
+    const {
+      display
+    } = this.state;
+
     this.setState({
-      display:this.calculate(),
-      former:this.calculate()
+      display:display/100
     })
   }
 
-  calculate(){
-    if(!operation) return;
+  toggleMinus = () => {
+    let {
+      display,operation,former,latter
+    } = this.state;
+
+    if( !/\-/.test(display) ){
+      display = '-' + display
+    } else {
+      display = '' + -Number(display)
+    }
+
+    this.setState({
+      former: operation ? former :-former,
+      latter: operation ? latter :-latter,
+      display
+    })
+  }
+
+  addDot = () => {
+    let {
+      display
+    } = this.state;
+
+    if( !/\./.test(display) ){
+      display = '' + display + '.'
+    }
+
+    this.setState({
+      display
+    })
+  }
+
+  getResult = () => {
+    const calc = this.calculate()
+
+    this.setState({
+      display:calc,
+      former:calc,
+      latter:0
+    })
+  }
+
+  calculate = () => {
+    if(!this.state.operation) return;
 
     const {
       operation,former,latter
     } = this.state;
 
-    if( operation == "plus" ){
-      return former + latter;
-    } else if( operation == 'minus' ){
-      return former - latter;
-    } else if( operation == 'multi' ){
-      return former * latter;
-    } else if( operation == 'devide' ){
-      return former/latter;
+    let result;
+
+    switch(operation){
+      case "plus": result = former + latter;break;
+      case "minus": result = former - latter;break;
+      case "multi": result = former * latter;break;
+      case "devide": result = (former / latter);break;
     }
+
+    alert(`${former},${latter},${operation}`);
+
+    return result;
   }
 
-  clear(){
+  clear = () => {
     this.setState({
-      display:0
+      display:0,
+      former:0,
+      latter:0,
+      operation:''
     })
   }
 }
