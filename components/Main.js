@@ -188,8 +188,6 @@ export default class Main extends Component {
       case "devide": result = (former / latter);break;
     }
 
-    alert(`${former},${latter},${operation}`);
-
     return result;
   }
 
