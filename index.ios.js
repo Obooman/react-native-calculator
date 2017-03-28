@@ -9,11 +9,7 @@ import Main from './components/Main';
 
 export default class ReactNativeCalculator extends Component {
   render() {
-    return (
-    	<View>
-    		<Main/>
-    	</View>
-    )
+    return <Main/>
   }
 }
 

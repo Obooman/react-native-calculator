@@ -32,8 +32,8 @@ export default class Main extends Component {
         />
         <Display display={ this.state.display }/>
         <ButtonWrapper>
-          <FuncButton display="C" onPress={ this.clear }/>
-          <FuncButton display="+/-" onPress = { this.toggleMinus }/>
+          <FuncButton display="C" onPress={ this.clear } key="C"/>
+          <FuncButton display="+/-" onPress = { this.toggleMinus } key="+/-"/>
           <FuncButton display="%" onPress={ this.setPercentage }/>
           {
             [
@@ -48,7 +48,7 @@ export default class Main extends Component {
           }
           <Button display="0" big="true" onPress={ () => {this.changeDisplay("0")} }/>
           <Button display="." onPress={ this.addDot }/>
-          <FuncButton display="=" operation = { true } onPress={ this.getResult }/>
+          <FuncButton display="=" operation = { true } onPress={ this.getResult } key="="/>
         </ButtonWrapper>
     	</View>
     )
@@ -60,7 +60,7 @@ export default class Main extends Component {
           number
         } onPress={ 
           () => {this.changeDisplay( ''+number )}
-        } key={ index }/>
+        } key={ ''+Math.random().toFixed(2)+index }/>
     ))
   }
 
