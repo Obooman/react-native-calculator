@@ -1,20 +1,24 @@
 import React, { Component } from 'react';
 import {
   AppRegistry,
-  Text,
-  View
+  View,
 } from 'react-native';
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
+import reducer from './reducer';
 
 import Main from './components/Main';
 
-export default class ReactNativeCalculator extends Component {
+let store = createStore(reducer);
+
+export default class DemoReactNative extends Component {
   render() {
     return (
-    	<View>
-    		<Main/>
-    	</View>
-    )
+      <Provider store={store}>
+        <Main/>
+      </Provider>
+    );
   }
 }
 
-AppRegistry.registerComponent('ReactNativeCalculator', () => ReactNativeCalculator);
+AppRegistry.registerComponent('DemoReactNative', () => DemoReactNative);

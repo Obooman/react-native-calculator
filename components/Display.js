@@ -1,37 +1,45 @@
-import React, { Component } from 'react';
+import React,{ Component } from 'react'
 import {
-  Text,
-  View,
-  StyleSheet,
-  Dimensions
-} from 'react-native';
+	View,
+	Text,
+	TouchableHighlight,
+	StyleSheet,
+	Dimensions
+} from 'react-native'
+import { connect } from 'react-redux';
 
-const { height } = Dimensions.get('window');
+const { width, height } = Dimensions.get('window');
 
-export default class Display extends Component {
-  render() {
-    return (
-    	<View style = { styles.wrapper }>
-    		<Text style = { styles.text }>
-    			{ this.props.display || 0 }
-			</Text>
-    	</View>
-    )
-  }
+class Main extends Component{
+	render(){
+		return (
+			<View style={ styles.wrapper }>
+				<Text style={ styles.text }>{
+					this.props.display
+				}</Text>
+			</View>
+		)
+	}
 }
 
-var styles = StyleSheet.create({
+const styles = StyleSheet.create({
 	wrapper:{
-		width:320,
-		height:height - 400,
-		backgroundColor:'#181818'
+		width:width,
+		height:height - (width/4)*5,
+		backgroundColor:'#1d1d1d'
 	},
 	text:{
 		color:'white',
 		position:'absolute',
 		right:10,
-		bottom:10,
+		bottom:0,
 		fontSize:70,
-		fontWeight:'100'
+		fontFamily:'PingFangSC-Ultralight'
 	}
 })
+
+export default connect((store) => {
+	return {
+		display:(store &&  store.display) ? store.display : 0
+	}
+})(Main);
